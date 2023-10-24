@@ -30,3 +30,16 @@ jobs:
           severity: ${{ steps.readseverity.outputs.severity }}
         run: echo '$severity'
 
+
+
+      - name: Run scanner
+        id: scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-ref: '.'
+          scan-type: 'fs'
+          exit-code: '1'
+          format: 'table'
+          output: 'err.txt'
+          severity: ${{ steps.readseverity.outputs.severity }}
+
