@@ -102,14 +102,15 @@ jobs:
         env:
           TAGS: "ryelgl/fortune"
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           DIGEST: ${{ steps.buildpush.outputs.digest }}
 
 
 
           SLACK_MESSAGE: |
             *Name*: Li GengLai
-            *MatriculationNumber*: 000
-            *Email*: 000@gmail.com
+            *MatriculationNumber*: A0285973J
+            *Email*: RYELG177@gmail.com
             *Repository* :${{ github.server_url }}/${{ github.repository }}
             *DockerHubURL*: <>"
             SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
