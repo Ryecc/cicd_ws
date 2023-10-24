@@ -124,3 +124,11 @@ jobs:
           DIGEST: ${{ steps.buildpush.outputs.digest }}
 
 
+
+          SLACK_MESSAGE: |
+            *Name*: Li GengLai
+            *MatriculationNumber*: 000
+            *Email*: 000@gmail.com
+            *Repository* :${{ github.server_url }}/${{ github.repository }}
+            *DockerHubURL*: <>"
+            SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
