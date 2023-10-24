@@ -53,7 +53,7 @@ jobs:
         if: always() && (steps.scanner.outcome == 'failure')
         uses: adrey/slack-file-upload-action@master
         with:
-          channel: test-1023
+          channel: test
           path: err.txt
           token: ${{ secrets.SLACK_BOT_TOKEN }}
 
