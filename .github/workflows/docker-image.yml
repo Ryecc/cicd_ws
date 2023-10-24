@@ -3,10 +3,124 @@ on:
   push:
     branches:  'v[0-9]*\.[0-9]*'
 
+
 jobs:
   build:
+    if: ${{ startsWith(github.event.head_commit.message, '#NORUN') == false }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Checkout my code
+        uses: actions/checkout@v3
+
+
+      - name: Read High or Critical
+        id: readseverity
+        run: |
+          if [[ $mystring == *"CRITICAL"* ]]; then
+            echo "severity=CRITICAL" >> "$GITHUB_OUTPUT"
+          else
+            echo "severity=HIGH" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          mystring: ${{ github.event.head_commit.message }}
+
+
+      - name: check severity
+        env:
+          severity: ${{ steps.readseverity.outputs.severity }}
+        run: echo '$severity'
+
+
+
+      - name: Run scanner
+        id: scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-ref: '.'
+          scan-type: 'fs'
+          exit-code: '1'
+          format: 'table'
+          output: 'err.txt'
+          severity: ${{ steps.readseverity.outputs.severity }}
+
+
+
+      - name: Failed scanner
+        if: always() &&  (steps.scanner.outcome == 'failure')
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_MESSAGE: 'scanner Failed'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
+
+
+
+
+
+
+      - name: Upload err.txt
+        if: always() && (steps.scanner.outcome == 'failure')
+        uses: adrey/slack-file-upload-action@master
+        with:
+          channel: test-1023
+          path: err.txt
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+
+
+
+      - name: Upload err.txt
+        if: always() && (steps.scanner.outcome == 'failure')
+        uses: adrey/slack-file-upload-action@master
+        with:
+          channel: test-1023
+          path: err.txt
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+
+
+      - name: Build image
+        run: |
+          docker build -t ryelgl/fortune:${{ github.sha }} .
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.1.1
+        with:
+          cosign-release: 'v2.2.0' 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+
+
+
+
+
+
+
+
+      - name: Build and push
+        id: buildpush
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ryelgl/fortune:${{ github.sha }}
+
+
+
+
+      - name: Sign fortune image
+        run: |
+          echo "$PRIVATE_KEY" > cosign.key
+          cosign sign --verbose --yes --key cosign.key "${TAGS}@${DIGEST}"
+        env:
+          TAGS: "ryelgl/fortune"
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          DIGEST: ${{ steps.buildpush.outputs.digest }}
+
+
