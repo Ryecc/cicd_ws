@@ -50,7 +50,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_MESSAGE: 'scanner Failed'
-          SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
+          SLACK_WEBHOOK: env.SEVERITY
 
 
 
