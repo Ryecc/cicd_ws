@@ -28,7 +28,7 @@ jobs:
       - name: check severity
         env:
           severity: ${{ steps.readseverity.outputs.severity }}
-        run: echo '$severity'
+        run: echo $severity
 
 
 
