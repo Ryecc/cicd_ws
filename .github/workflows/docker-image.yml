@@ -106,12 +106,13 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           DIGEST: ${{ steps.buildpush.outputs.digest }}
 
-
-
+      - name: Success
+        uses: rtCamp/action-slack-notify@v2
+        env:
           SLACK_MESSAGE: |
             *Name*: Li GengLai
             *MatriculationNumber*: A0285973J
             *Email*: RYELG177@gmail.com
             *Repository* :${{ github.server_url }}/${{ github.repository }}
-            *DockerHubURL*: <>"
-            SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
+            *DockerHubURL*: https://hub.docker.com/repository/docker/ryelgl/fortune/general
+          SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
