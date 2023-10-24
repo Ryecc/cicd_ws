@@ -41,7 +41,7 @@ jobs:
           exit-code: '1'
           format: 'table'
           output: 'err.txt'
-          severity: env.SEVERITY
+          severity: ${{ env.SEVERITY }}
 
 
 
