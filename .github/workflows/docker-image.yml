@@ -96,3 +96,19 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
 
+
+
+
+
+
+
+
+      - name: Build and push
+        id: build-push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ryelgl/fortune:${{ github.sha }}
+
+
