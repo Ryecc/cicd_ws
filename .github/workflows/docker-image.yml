@@ -41,7 +41,7 @@ jobs:
           exit-code: '1'
           format: 'table'
           output: 'err.txt'
-          severity: ${{ steps.readseverity.outputs.severity }}
+          severity: env.SEVERITY
 
 
 
@@ -50,7 +50,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_MESSAGE: 'scanner Failed'
-          SLACK_WEBHOOK: env.SEVERITY
+          SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
 
 
 
