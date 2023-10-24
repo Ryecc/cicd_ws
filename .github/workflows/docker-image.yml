@@ -11,3 +11,22 @@ jobs:
     steps:
       - name: Checkout my code
         uses: actions/checkout@v3
+
+
+      - name: Read High or Critical
+        id: readseverity
+        run: |
+          if [[ $mystring == *"CRITICAL"* ]]; then
+            echo "severity=CRITICAL" >> "$GITHUB_OUTPUT"
+          else
+            echo "severity=HIGH" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          mystring: ${{ github.event.head_commit.message }}
+
+
+      - name: check severity
+        env:
+          severity: ${{ steps.readseverity.outputs.severity }}
+        run: echo '$severity'
+
