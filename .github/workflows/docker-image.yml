@@ -43,3 +43,12 @@ jobs:
           output: 'err.txt'
           severity: ${{ steps.readseverity.outputs.severity }}
 
+
+
+      - name: Failed scanner
+        if: always() &&  (steps.scanner.outcome == 'failure')
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_MESSAGE: 'scanner Failed'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
+
