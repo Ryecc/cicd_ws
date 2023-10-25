@@ -31,11 +31,7 @@ jobs:
         env:
           SLACK_MESSAGE: 'scanner Failed'
           SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
-
-
-
-
-
+          
 
       - name: Upload err.txt
         if: always() && (steps.scanner.outcome == 'failure')
@@ -75,11 +71,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
-
-
-
-
-
 
 
       - name: Build and push
