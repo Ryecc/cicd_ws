@@ -82,8 +82,6 @@ jobs:
 
 
 
-
-
       - name: Build and push
         id: buildpush
         uses: docker/build-push-action@v5
@@ -91,8 +89,6 @@ jobs:
           context: .
           push: true
           tags: ryelgl/fortune:${{ github.sha }}
-
-
 
 
       - name: Sign fortune image
