@@ -30,14 +30,14 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_MESSAGE: 'scanner Failed'
-          SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_SUBMISSION }}
           
 
       - name: Upload err.txt
         if: always() && (steps.scanner.outcome == 'failure')
         uses: adrey/slack-file-upload-action@master
         with:
-          channel: test
+          channel: submission
           path: err.txt
           token: ${{ secrets.SLACK_BOT_TOKEN }}
 
@@ -93,4 +93,4 @@ jobs:
             *Email*: e1221785@u.nus.edu
             *Repository* :${{ github.server_url }}/${{ github.repository }}
             *DockerHubURL*: https://hub.docker.com/repository/docker/ryelgl/fortune/general
-          SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_SUBMISSION }}
