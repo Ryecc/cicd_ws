@@ -82,7 +82,7 @@ jobs:
           tags: ryelgl/fortune:${{ github.sha }}
 
 
-      - name: Sign fortune image
+      - name: Sign fortune Image
         run: |
           echo "$PRIVATE_KEY" > cosign.key
           cosign sign --verbose --yes --key cosign.key "${TAGS}@${DIGEST}"
