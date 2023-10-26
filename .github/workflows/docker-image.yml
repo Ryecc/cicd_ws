@@ -51,7 +51,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
 
 
-      - name: Build image
+      - name: Build Image
         run: |
           docker build -t ryelgl/fortune:${{ github.sha }} .
       - name: Set up QEMU
