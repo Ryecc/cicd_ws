@@ -25,7 +25,7 @@ jobs:
           severity: ${{ vars.SEVERITY }}
 
 
-      - name: Failed scanner
+      - name: Failed Scanner
         if: always() &&  (steps.scanner.outcome == 'failure')
         uses: rtCamp/action-slack-notify@v2
         env:
