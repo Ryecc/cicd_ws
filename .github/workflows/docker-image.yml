@@ -90,7 +90,7 @@ jobs:
           SLACK_MESSAGE: |
             *Name*: Li GengLai
             *MatriculationNumber*: A0285973J
-            *Email*: RYELG177@gmail.com
+            *Email*: e1221785@u.nus.edu
             *Repository* :${{ github.server_url }}/${{ github.repository }}
             *DockerHubURL*: https://hub.docker.com/repository/docker/ryelgl/fortune/general
           SLACK_WEBHOOK: ${{ secrets.SLACK_TEST_HOOK }}
