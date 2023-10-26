@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
 
-      - name: Run Scanner
+      - name: Scan
         id: scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -25,7 +25,7 @@ jobs:
           severity: ${{ vars.SEVERITY }}
 
 
-      - name: Failed Scanner
+      - name: Failed Scan
         if: always() &&  (steps.scanner.outcome == 'failure')
         uses: rtCamp/action-slack-notify@v2
         env:
@@ -84,7 +84,7 @@ jobs:
           DIGEST: ${{ steps.buildpush.outputs.digest }}
 
 
-      - name: Success
+      - name: Sent Success Information
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_MESSAGE: |
